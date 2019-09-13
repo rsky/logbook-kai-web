@@ -1,0 +1,42 @@
+{
+  "name": "logbook-web",
+  "version": "1.0.0",
+  "description": "The web frontend for logbook-kai",
+  "main": "index.js",
+  "scripts": {
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "npm run type-check -- --watch",
+    "build": "npm run build:types && npm run build:js",
+    "build:types": "tsc --emitDeclarationOnly",
+    "build:js": "babel src --out-dir lib --extensions \".ts,.tsx\" --source-maps inline",
+    "bundle:prod": "webpack --mode=production",
+    "bundle:dev": "webpack --mode=development",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:watch": "echo \"Error: no test specified\" && exit 1",
+    "test:ci": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ryusuke SEKIYAMA",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.6.0",
+    "@babel/core": "^7.6.0",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-proposal-numeric-separator": "^7.2.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
+    "@babel/preset-env": "^7.6.0",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-typescript": "^7.6.0",
+    "@types/react": "^16.9.2",
+    "@types/react-dom": "^16.9.0",
+    "babel-loader": "^8.0.6",
+    "clean-webpack-plugin": "^3.0.0",
+    "html-webpack-plugin": "^3.2.0",
+    "typescript": "^3.6.3",
+    "webpack": "^4.40.0",
+    "webpack-cli": "^3.3.8"
+  }
+}
