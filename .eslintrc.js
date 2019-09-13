@@ -29,8 +29,12 @@ module.exports = {
     "comma-dangle": ["error", "only-multiline"],
     "eol-last": ["error", "unix"],
     indent: ["error", 4],
+    "react/jsx-uses-vars": "warn",
     "linebreak-style": ["error", "unix"],
     quotes: ["error", "double"],
     semi: ["error", "never"],
+    "@typescript-eslint/explicit-function-return-type": ["warn", {
+      "allowExpressions": true,
+    }],
   }
 }
