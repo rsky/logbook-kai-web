@@ -29,11 +29,11 @@ const DebugIcon: React.SFC = () => (
 
 const StyledTab = withStyles({
     root: {
-        textTransform: 'none',
+        textTransform: "none",
     },
 })(Tab)
 
-export const Root: React.SFC = () => {
+export const App: React.SFC = () => {
     const [value, setValue] = useState(0)
     return (
         <div>
