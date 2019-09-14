@@ -1,5 +1,4 @@
 import { handleActions } from "redux-actions"
-import { FakeStorage } from "../../utils/FakeStorage"
 import {
     ACTION_CONNECT,
     ACTION_DISCONNECT,
@@ -10,6 +9,7 @@ import {
     onMessage,
 } from "./actions"
 import { getStore } from ".."
+import { getStorage } from "../../utils/storage"
 
 const WEBSOCKET_HOST_KEY = "logbook.websocket.host"
 const WEBSOCKET_PORT_KEY = "logbook.websocket.port"
@@ -25,25 +25,28 @@ type WebSocketState = {
     ws: WebSocket | null;
 }
 
-const initialState: WebSocketState = {
-    ...defaultSettings,
-    ws: null,
-}
+const initialState: WebSocketState = (() => {
+    const state = {} as WebSocketState
+    const storage = getStorage()
 
-let storage: Storage
-if (window.localStorage) {
-    storage = window.localStorage
     const savedHost = storage.getItem(WEBSOCKET_HOST_KEY)
     if (savedHost) {
-        initialState.host = savedHost
+        state.host = savedHost
+    } else {
+        state.host = defaultSettings.host
     }
+
     const savedPort = storage.getItem(WEBSOCKET_PORT_KEY)
     if (savedPort) {
-        initialState.port = parseInt(savedPort, 10)
+        state.port = parseInt(savedPort, 10)
+    } else {
+        state.port = defaultSettings.port
     }
-} else {
-    storage = new FakeStorage()
-}
+
+    state.ws = null
+
+    return state
+})()
 
 export const websocketReducer = handleActions<WebSocketState, PayloadType>({
     [ACTION_CONNECT]: state => {
@@ -67,9 +70,9 @@ export const websocketReducer = handleActions<WebSocketState, PayloadType>({
     [ACTION_SET_HOST]: (state, action) => {
         let host = action.payload.host
         if (host) {
-            storage.setItem(WEBSOCKET_HOST_KEY, host)
+            getStorage().setItem(WEBSOCKET_HOST_KEY, host)
         } else {
-            storage.removeItem(WEBSOCKET_HOST_KEY)
+            getStorage().removeItem(WEBSOCKET_HOST_KEY)
             host = defaultSettings.host
         }
         return { ...state, host }
@@ -79,9 +82,9 @@ export const websocketReducer = handleActions<WebSocketState, PayloadType>({
         let port
         if (value) {
             port = parseInt(value, 10)
-            storage.setItem(WEBSOCKET_PORT_KEY, value)
+            getStorage().setItem(WEBSOCKET_PORT_KEY, value)
         } else {
-            storage.removeItem(WEBSOCKET_PORT_KEY)
+            getStorage().removeItem(WEBSOCKET_PORT_KEY)
             port = defaultSettings.port
         }
         return { ...state, port }

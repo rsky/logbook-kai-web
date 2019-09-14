@@ -1,4 +1,5 @@
 import { AnyAction, Store, combineReducers, createStore } from "redux"
+import { settingsReducer } from "./settings/reducer"
 import { websocketReducer } from "./websocket/reducer"
 
 type StoreHolder = { store: Store<unknown, AnyAction> }
@@ -6,10 +7,11 @@ type StoreHolder = { store: Store<unknown, AnyAction> }
 const storeHolder = {} as StoreHolder
 
 export const configureStore = (): Store<unknown, AnyAction> => {
-    const rootReducer = combineReducers({
+    const reducers = {
+        settings: settingsReducer,
         websocket: websocketReducer,
-    })
-    const store = createStore(rootReducer)
+    }
+    const store = createStore(combineReducers(reducers))
     storeHolder.store = store
     return store
 }
