@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from "react"
 import ReactDOM from "react-dom"
 import { Provider } from "react-redux"
@@ -7,9 +6,10 @@ import { Logbook } from "./components/Logbook"
 
 const store = configureStore()
 
-ReactDOM.render(
+const App: React.SFC = () => (
     <Provider store={store}>
         <Logbook />
-    </Provider>,
-    document.getElementById("root"),
+    </Provider>
 )
+
+ReactDOM.render(<App />, document.getElementById("root"))
