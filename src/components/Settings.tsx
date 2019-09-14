@@ -7,6 +7,7 @@ import {
     CardActions,
     CardContent,
     FormControl,
+    FormControlLabel,
     FormLabel,
     Radio,
     RadioGroup,
@@ -14,7 +15,6 @@ import {
     TextField,
     Typography,
     makeStyles,
-    FormControlLabel,
 } from "@material-ui/core"
 import { LogbookState } from "../store"
 import { setDebugMode, setMaxLogRecords, setUIMode } from "../store/settings/actions"
@@ -58,11 +58,7 @@ export const Settings: React.SFC = () => {
                         <FormLabel component="legend" className={classes.fromLabel}>UIモード</FormLabel>
                         <RadioGroup
                             value={settings.uiMode}
-                            onChange={event => {
-                                if (window.confirm("UIモードを切り替えてよろしいですか?")) {
-                                    dispatch(setUIMode(event.target.value))
-                                }
-                            }}
+                            onChange={event => dispatch(setUIMode(event.target.value))}
                         >
                             <FormControlLabel
                                 value={UIMode.SMART}

@@ -1,37 +1,81 @@
 import React, { useState } from "react"
 import { AppBar, Box, Grid, Tabs } from "@material-ui/core"
 import { HomeIcon, SettingsIcon, DebugIcon, Tab } from "./Tabs"
+import { Debug } from "../Debug"
 import { Settings } from "../Settings"
 
+const INDEX_SETTINGS = 1
+
 type WideLayoutProps = {
-    debugMode: boolean;
+    debugModeEnabled: boolean;
+    settingsActivated: boolean;
+    setSettingsActive: (_: boolean) => void;
+}
+
+type LeftPaneProps = {
+    index: number;
+}
+
+type RightPaneProps = {
+    index: number;
+}
+
+const LeftPane: React.SFC<LeftPaneProps> = props => {
+    switch (props.index) {
+    case 0:
+        return <Box>母港</Box>
+    case 1:
+        return <Settings />
+    case 2:
+        return <Debug />
+    default:
+        return null
+    }
+}
+
+const RightPane: React.SFC<RightPaneProps> = props => {
+    switch (props.index) {
+    case 0:
+        return <Box>第1艦隊</Box>
+    case 1:
+        return <Box>第2艦隊</Box>
+    case 2:
+        return <Box>第3艦隊</Box>
+    case 3:
+        return <Box>第4艦隊</Box>
+    default:
+        return null
+    }
 }
 
 export const WideLayout: React.SFC<WideLayoutProps> = props => {
-    const [lValue, setLValue] = useState(0)
-    const [rValue, setRValue] = useState(0)
+    const [lIndex, setLIndex] = useState(props.settingsActivated ? INDEX_SETTINGS : 0)
+    const [rIndex, setRIndex] = useState(0)
     return (
         <div>
             <AppBar position="sticky" color="default">
                 <Grid container spacing={0}>
                     <Grid item xs={6}>
                         <Tabs
-                            value={lValue}
-                            onChange={(_, newValue) => setLValue(newValue)}
+                            value={lIndex}
+                            onChange={(_, newLIndex) => {
+                                setLIndex(newLIndex)
+                                props.setSettingsActive(newLIndex === INDEX_SETTINGS)
+                            }}
                             variant="fullWidth"
                             indicatorColor="primary"
                         >
                             <Tab icon={<HomeIcon />} />
                             <Tab icon={<SettingsIcon />} />
-                            {props.debugMode && (
+                            {props.debugModeEnabled && (
                                 <Tab icon={<DebugIcon />} />
                             )}
                         </Tabs>
                     </Grid>
                     <Grid item xs={6}>
                         <Tabs
-                            value={rValue}
-                            onChange={(_, newValue) => setRValue(newValue)}
+                            value={rIndex}
+                            onChange={(_, newRIndex) => setRIndex(newRIndex)}
                             variant="scrollable"
                             scrollButtons="auto"
                             indicatorColor="primary"
@@ -46,17 +90,10 @@ export const WideLayout: React.SFC<WideLayoutProps> = props => {
             </AppBar>
             <Grid container spacing={0}>
                 <Grid item xs={12} sm={6}>
-                    <Box hidden={lValue !== 0}>母港</Box>
-                    <Box hidden={lValue !== 1}>
-                        <Settings />
-                    </Box>
-                    <Box hidden={lValue !== 2}>Debug</Box>
+                    <LeftPane index={lIndex} />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                    <Box hidden={rValue !== 0}>第1艦隊</Box>
-                    <Box hidden={rValue !== 1}>第2艦隊</Box>
-                    <Box hidden={rValue !== 2}>第3艦隊</Box>
-                    <Box hidden={rValue !== 3}>第4艦隊</Box>
+                    <RightPane index={rIndex} />
                 </Grid>
             </Grid>
         </div>

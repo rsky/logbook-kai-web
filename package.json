@@ -27,6 +27,7 @@
     "@mdi/react": "^1.2.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
+    "react-json-view": "^1.19.1",
     "react-redux": "^7.1.1"
   },
   "devDependencies": {
