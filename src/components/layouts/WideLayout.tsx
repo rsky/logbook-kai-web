@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { AppBar, Box, Grid, Tabs, makeStyles } from "@material-ui/core"
 import { HomeIcon, SettingsIcon, DebugIcon, Tab, rootStyle } from "./Common"
 import { Debug } from "../Debug"
+import { Dump } from "../Dump"
 import { Settings } from "../Settings"
 
 const INDEX_SETTINGS = 1
@@ -23,7 +24,6 @@ type LeftPaneProps = {
 
 type RightPaneProps = {
     index: number;
-    classes: Record<string, string>;
 }
 
 const LeftPane: React.SFC<LeftPaneProps> = ({ index, classes }) => {
@@ -39,16 +39,16 @@ const LeftPane: React.SFC<LeftPaneProps> = ({ index, classes }) => {
     }
 }
 
-const RightPane: React.SFC<RightPaneProps> = ({ index, classes }) => {
+const RightPane: React.SFC<RightPaneProps> = ({ index }) => {
     switch (index) {
     case 0:
-        return <Box className={classes.root}>第1艦隊</Box>
+        return <Dump data={{ name: "第1艦隊" }} />
     case 1:
-        return <Box className={classes.root}>第2艦隊</Box>
+        return <Dump data={{ name: "第1艦隊" }} />
     case 2:
-        return <Box className={classes.root}>第3艦隊</Box>
+        return <Dump data={{ name: "第1艦隊" }} />
     case 3:
-        return <Box className={classes.root}>第4艦隊</Box>
+        return <Dump data={{ name: "第1艦隊" }} />
     default:
         return null
     }
@@ -100,7 +100,7 @@ export const WideLayout: React.SFC<WideLayoutProps> = props => {
                     <LeftPane index={lIndex} classes={classes} />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                    <RightPane index={rIndex} classes={classes} />
+                    <RightPane index={rIndex} />
                 </Grid>
             </Grid>
         </div>

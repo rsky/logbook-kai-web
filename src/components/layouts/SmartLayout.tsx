@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { AppBar, Box, Tabs, makeStyles } from "@material-ui/core"
 import { HomeIcon, SettingsIcon, DebugIcon, Tab, rootStyle } from "./Common"
 import { Debug } from "../Debug"
+import { Dump } from "../Dump"
 import { Settings } from "../Settings"
 
 const INDEX_SETTINGS = 5
@@ -26,13 +27,13 @@ const MainPane: React.SFC<MainPaneProps> = ({ index, classes }) => {
     case 0:
         return <Box className={classes.root}>母港</Box>
     case 1:
-        return <Box className={classes.root}>第1艦隊</Box>
+        return <Dump data={{ name: "第1艦隊" }} />
     case 2:
-        return <Box className={classes.root}>第2艦隊</Box>
+        return <Dump data={{ name: "第2艦隊" }} />
     case 3:
-        return <Box className={classes.root}>第3艦隊</Box>
+        return <Dump data={{ name: "第3艦隊" }} />
     case 4:
-        return <Box className={classes.root}>第4艦隊</Box>
+        return <Dump data={{ name: "第4艦隊" }} />
     case 5:
         return <Settings />
     case 6:
