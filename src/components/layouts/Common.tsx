@@ -1,9 +1,10 @@
 import React from "react"
 import { Tab, withStyles } from "@material-ui/core"
+import { CSSProperties } from "@material-ui/core/styles/withStyles"
 import Icon from "@mdi/react"
 import { mdiAnchor, mdiBug, mdiSettings } from "@mdi/js"
 
-const rootStyle = {
+const rootStyle: CSSProperties = {
     height: "calc(100vh - 48px)",
     margin: "48px 0 0 0",
     padding: "16px",
