@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { AppBar, Box, Grid, Tabs } from "@material-ui/core"
 import { HomeIcon, SettingsIcon, DebugIcon, Tab } from "./Tabs"
+import { Settings } from "../Settings"
 
 type WideLayoutProps = {
     debugMode: boolean;
@@ -11,7 +12,7 @@ export const WideLayout: React.SFC<WideLayoutProps> = props => {
     const [rValue, setRValue] = useState(0)
     return (
         <div>
-            <AppBar position="fixed" color="default">
+            <AppBar position="sticky" color="default">
                 <Grid container spacing={0}>
                     <Grid item xs={6}>
                         <Tabs
@@ -46,7 +47,9 @@ export const WideLayout: React.SFC<WideLayoutProps> = props => {
             <Grid container spacing={0}>
                 <Grid item xs={12} sm={6}>
                     <Box hidden={lValue !== 0}>母港</Box>
-                    <Box hidden={lValue !== 1}>設定</Box>
+                    <Box hidden={lValue !== 1}>
+                        <Settings />
+                    </Box>
                     <Box hidden={lValue !== 2}>Debug</Box>
                 </Grid>
                 <Grid item xs={12} sm={6}>

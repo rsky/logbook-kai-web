@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { AppBar, Box, Tabs } from "@material-ui/core"
 import { HomeIcon, SettingsIcon, DebugIcon, Tab } from "./Tabs"
+import { Settings } from "../Settings"
 
 type SmartLayoutProps = {
     debugMode: boolean;
@@ -10,7 +11,7 @@ export const SmartLayout: React.SFC<SmartLayoutProps> = props => {
     const [value, setValue] = useState(0)
     return (
         <div>
-            <AppBar position="fixed" color="default">
+            <AppBar position="sticky" color="default">
                 <Tabs
                     value={value}
                     onChange={(_, newValue) => setValue(newValue)}
@@ -35,7 +36,9 @@ export const SmartLayout: React.SFC<SmartLayoutProps> = props => {
                 <Box hidden={value !== 2}>第2艦隊</Box>
                 <Box hidden={value !== 3}>第3艦隊</Box>
                 <Box hidden={value !== 4}>第4艦隊</Box>
-                <Box hidden={value !== 5}>設定</Box>
+                <Box hidden={value !== 5}>
+                    <Settings />
+                </Box>
                 <Box hidden={value !== 6}>Debug</Box>
             </div>
         </div>
