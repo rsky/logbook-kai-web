@@ -17,7 +17,7 @@ const defaultSettings = {
     maxLogRecords: 10,
 }
 
-type SettingsState = {
+export type SettingsState = {
     uiMode: string;
     debugMode: boolean;
     maxLogRecords: number;

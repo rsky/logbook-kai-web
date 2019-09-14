@@ -1,10 +1,15 @@
 import { AnyAction, Store, combineReducers, createStore } from "redux"
-import { settingsReducer } from "./settings/reducer"
-import { websocketReducer } from "./websocket/reducer"
+import { settingsReducer, SettingsState } from "./settings/reducer"
+import { websocketReducer, WebSocketState } from "./websocket/reducer"
 
 type StoreHolder = { store: Store<unknown, AnyAction> }
 
 const storeHolder = {} as StoreHolder
+
+export type LogbookState = {
+    settings: SettingsState;
+    websocket: WebSocketState;
+}
 
 export const configureStore = (): Store<unknown, AnyAction> => {
     const reducers = {

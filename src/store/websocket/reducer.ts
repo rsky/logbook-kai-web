@@ -19,7 +19,7 @@ const defaultSettings = {
     port: 5000,
 }
 
-type WebSocketState = {
+export type WebSocketState = {
     host: string;
     port: number;
     ws: WebSocket | null;
