@@ -1,10 +1,14 @@
 import React, { useState } from "react"
-import { AppBar, Box, Tabs } from "@material-ui/core"
-import { HomeIcon, SettingsIcon, DebugIcon, Tab } from "./Tabs"
+import { AppBar, Box, Tabs, makeStyles } from "@material-ui/core"
+import { HomeIcon, SettingsIcon, DebugIcon, Tab, rootStyle } from "./Common"
 import { Debug } from "../Debug"
 import { Settings } from "../Settings"
 
 const INDEX_SETTINGS = 5
+
+const useStyles = makeStyles({
+    root: rootStyle,
+})
 
 type SmartLayoutProps = {
     debugModeEnabled: boolean;
@@ -14,20 +18,21 @@ type SmartLayoutProps = {
 
 type MainPaneProps = {
     index: number;
+    classes: Record<string, string>;
 }
 
-const MainPane: React.SFC<MainPaneProps> = props => {
-    switch (props.index) {
+const MainPane: React.SFC<MainPaneProps> = ({ index, classes }) => {
+    switch (index) {
     case 0:
-        return <Box>母港</Box>
+        return <Box className={classes.root}>母港</Box>
     case 1:
-        return <Box>第1艦隊</Box>
+        return <Box className={classes.root}>第1艦隊</Box>
     case 2:
-        return <Box>第2艦隊</Box>
+        return <Box className={classes.root}>第2艦隊</Box>
     case 3:
-        return <Box>第3艦隊</Box>
+        return <Box className={classes.root}>第3艦隊</Box>
     case 4:
-        return <Box>第4艦隊</Box>
+        return <Box className={classes.root}>第4艦隊</Box>
     case 5:
         return <Settings />
     case 6:
@@ -38,10 +43,11 @@ const MainPane: React.SFC<MainPaneProps> = props => {
 }
 
 export const SmartLayout: React.SFC<SmartLayoutProps> = props => {
+    const classes = useStyles()
     const [index, setIndex] = useState(props.settingsActivated ? INDEX_SETTINGS : 0)
     return (
         <div>
-            <AppBar position="sticky" color="default">
+            <AppBar position="fixed" color="default">
                 <Tabs
                     value={index}
                     onChange={(_, newIndex) => {
@@ -63,7 +69,7 @@ export const SmartLayout: React.SFC<SmartLayoutProps> = props => {
                     )}
                 </Tabs>
             </AppBar>
-            <MainPane index={index} />
+            <MainPane index={index} classes={classes} />
         </div>
     )
 }

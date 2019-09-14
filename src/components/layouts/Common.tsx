@@ -3,6 +3,14 @@ import { Tab, withStyles } from "@material-ui/core"
 import Icon from "@mdi/react"
 import { mdiAnchor, mdiBug, mdiSettings } from "@mdi/js"
 
+const rootStyle = {
+    height: "calc(100vh - 48px)",
+    margin: "48px 0 0 0",
+    padding: "16px",
+    boxSizing: "border-box",
+    overflow: "auto",
+}
+
 const HomeIcon: React.SFC = () => (
     <Icon
         path={mdiAnchor}
@@ -38,4 +46,5 @@ export {
     SettingsIcon,
     DebugIcon,
     StyledTab as Tab,
+    rootStyle,
 }

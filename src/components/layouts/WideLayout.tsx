@@ -1,10 +1,14 @@
 import React, { useState } from "react"
-import { AppBar, Box, Grid, Tabs } from "@material-ui/core"
-import { HomeIcon, SettingsIcon, DebugIcon, Tab } from "./Tabs"
+import { AppBar, Box, Grid, Tabs, makeStyles } from "@material-ui/core"
+import { HomeIcon, SettingsIcon, DebugIcon, Tab, rootStyle } from "./Common"
 import { Debug } from "../Debug"
 import { Settings } from "../Settings"
 
 const INDEX_SETTINGS = 1
+
+const useStyles = makeStyles({
+    root: rootStyle,
+})
 
 type WideLayoutProps = {
     debugModeEnabled: boolean;
@@ -14,16 +18,18 @@ type WideLayoutProps = {
 
 type LeftPaneProps = {
     index: number;
+    classes: Record<string, string>;
 }
 
 type RightPaneProps = {
     index: number;
+    classes: Record<string, string>;
 }
 
-const LeftPane: React.SFC<LeftPaneProps> = props => {
-    switch (props.index) {
+const LeftPane: React.SFC<LeftPaneProps> = ({ index, classes }) => {
+    switch (index) {
     case 0:
-        return <Box>母港</Box>
+        return <Box className={classes.root}>母港</Box>
     case 1:
         return <Settings />
     case 2:
@@ -33,27 +39,28 @@ const LeftPane: React.SFC<LeftPaneProps> = props => {
     }
 }
 
-const RightPane: React.SFC<RightPaneProps> = props => {
-    switch (props.index) {
+const RightPane: React.SFC<RightPaneProps> = ({ index, classes }) => {
+    switch (index) {
     case 0:
-        return <Box>第1艦隊</Box>
+        return <Box className={classes.root}>第1艦隊</Box>
     case 1:
-        return <Box>第2艦隊</Box>
+        return <Box className={classes.root}>第2艦隊</Box>
     case 2:
-        return <Box>第3艦隊</Box>
+        return <Box className={classes.root}>第3艦隊</Box>
     case 3:
-        return <Box>第4艦隊</Box>
+        return <Box className={classes.root}>第4艦隊</Box>
     default:
         return null
     }
 }
 
 export const WideLayout: React.SFC<WideLayoutProps> = props => {
+    const classes = useStyles()
     const [lIndex, setLIndex] = useState(props.settingsActivated ? INDEX_SETTINGS : 0)
     const [rIndex, setRIndex] = useState(0)
     return (
         <div>
-            <AppBar position="sticky" color="default">
+            <AppBar position="fixed" color="default">
                 <Grid container spacing={0}>
                     <Grid item xs={6}>
                         <Tabs
@@ -90,10 +97,10 @@ export const WideLayout: React.SFC<WideLayoutProps> = props => {
             </AppBar>
             <Grid container spacing={0}>
                 <Grid item xs={12} sm={6}>
-                    <LeftPane index={lIndex} />
+                    <LeftPane index={lIndex} classes={classes} />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                    <RightPane index={rIndex} />
+                    <RightPane index={rIndex} classes={classes} />
                 </Grid>
             </Grid>
         </div>

@@ -16,15 +16,14 @@ import {
     Typography,
     makeStyles,
 } from "@material-ui/core"
+import { rootStyle } from "./layouts/Common"
+import { UIMode } from "../models/UIMode"
 import { LogbookState } from "../store"
 import { setDebugMode, setMaxLogRecords, setUIMode } from "../store/settings/actions"
 import { setHost, setPort } from "../store/websocket/actions"
-import { UIMode } from "../models/UIMode"
 
 const useStyles = makeStyles({
-    root: {
-        padding: "16px",
-    },
+    root: rootStyle,
     card: {
         marginTop: "16px",
     },
@@ -59,6 +58,7 @@ export const Settings: React.SFC = () => {
                         <RadioGroup
                             value={settings.uiMode}
                             onChange={event => dispatch(setUIMode(event.target.value))}
+                            row
                         >
                             <FormControlLabel
                                 value={UIMode.SMART}
