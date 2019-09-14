@@ -1,15 +1,12 @@
 import React, { useState } from "react"
-import { AppBar, Box, Tabs, makeStyles } from "@material-ui/core"
-import { HomeIcon, SettingsIcon, DebugIcon, Tab, rootStyle } from "./Common"
+import { AppBar, Tabs } from "@material-ui/core"
+import { HomeIcon, SettingsIcon, DebugIcon, Tab } from "./Common"
 import { Debug } from "../Debug"
 import { Dump } from "../Dump"
+import { Port } from "../Port"
 import { Settings } from "../Settings"
 
 const INDEX_SETTINGS = 5
-
-const useStyles = makeStyles({
-    root: rootStyle,
-})
 
 type SmartLayoutProps = {
     debugModeEnabled: boolean;
@@ -19,13 +16,12 @@ type SmartLayoutProps = {
 
 type MainPaneProps = {
     index: number;
-    classes: Record<string, string>;
 }
 
-const MainPane: React.SFC<MainPaneProps> = ({ index, classes }) => {
+const MainPane: React.SFC<MainPaneProps> = ({ index }) => {
     switch (index) {
     case 0:
-        return <Box className={classes.root}>母港</Box>
+        return <Port />
     case 1:
         return <Dump data={{ name: "第1艦隊" }} />
     case 2:
@@ -44,7 +40,6 @@ const MainPane: React.SFC<MainPaneProps> = ({ index, classes }) => {
 }
 
 export const SmartLayout: React.SFC<SmartLayoutProps> = props => {
-    const classes = useStyles()
     const [index, setIndex] = useState(props.settingsActivated ? INDEX_SETTINGS : 0)
     return (
         <div>
@@ -70,7 +65,7 @@ export const SmartLayout: React.SFC<SmartLayoutProps> = props => {
                     )}
                 </Tabs>
             </AppBar>
-            <MainPane index={index} classes={classes} />
+            <MainPane index={index} />
         </div>
     )
 }

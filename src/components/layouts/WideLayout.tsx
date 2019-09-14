@@ -1,15 +1,12 @@
 import React, { useState } from "react"
-import { AppBar, Box, Grid, Tabs, makeStyles } from "@material-ui/core"
-import { HomeIcon, SettingsIcon, DebugIcon, Tab, rootStyle } from "./Common"
+import { AppBar, Grid, Tabs } from "@material-ui/core"
+import { HomeIcon, SettingsIcon, DebugIcon, Tab } from "./Common"
 import { Debug } from "../Debug"
 import { Dump } from "../Dump"
+import { Port } from "../Port"
 import { Settings } from "../Settings"
 
 const INDEX_SETTINGS = 1
-
-const useStyles = makeStyles({
-    root: rootStyle,
-})
 
 type WideLayoutProps = {
     debugModeEnabled: boolean;
@@ -19,17 +16,16 @@ type WideLayoutProps = {
 
 type LeftPaneProps = {
     index: number;
-    classes: Record<string, string>;
 }
 
 type RightPaneProps = {
     index: number;
 }
 
-const LeftPane: React.SFC<LeftPaneProps> = ({ index, classes }) => {
+const LeftPane: React.SFC<LeftPaneProps> = ({ index }) => {
     switch (index) {
     case 0:
-        return <Box className={classes.root}>母港</Box>
+        return <Port />
     case 1:
         return <Settings />
     case 2:
@@ -55,7 +51,6 @@ const RightPane: React.SFC<RightPaneProps> = ({ index }) => {
 }
 
 export const WideLayout: React.SFC<WideLayoutProps> = props => {
-    const classes = useStyles()
     const [lIndex, setLIndex] = useState(props.settingsActivated ? INDEX_SETTINGS : 0)
     const [rIndex, setRIndex] = useState(0)
     return (
@@ -97,7 +92,7 @@ export const WideLayout: React.SFC<WideLayoutProps> = props => {
             </AppBar>
             <Grid container spacing={0}>
                 <Grid item xs={12} sm={6}>
-                    <LeftPane index={lIndex} classes={classes} />
+                    <LeftPane index={lIndex} />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <RightPane index={rIndex} />
