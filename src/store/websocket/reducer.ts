@@ -23,6 +23,7 @@ export type WebSocketState = {
     host: string;
     port: number;
     ws: WebSocket | null;
+    configurationChanged: boolean;
 }
 
 const initialState: WebSocketState = (() => {
@@ -44,24 +45,27 @@ const initialState: WebSocketState = (() => {
     }
 
     state.ws = null
+    state.configurationChanged = false
 
     return state
 })()
 
 export const websocketReducer = handleActions<WebSocketState, PayloadType>({
     [ACTION_CONNECT]: state => {
+        if (state.ws) {
+            state.ws.close()
+        }
         const ws = new WebSocket(`ws://${state.host}:${state.port}`)
         ws.addEventListener("message", event => {
             getStore().dispatch(onMessage(event.data))
         })
-        return { ...state, ws }
+        return { ...state, ws, configurationChanged: false }
     },
     [ACTION_DISCONNECT]: state => {
-        const ws = state.ws
-        if (ws) {
-            ws.close()
+        if (state.ws) {
+            state.ws.close()
         }
-        return { ...state, ws: null }
+        return { ...state, ws: null, configurationChanged: false }
     },
     [ACTION_ON_MESSAGE]: (state, action) => {
         console.log(action.payload.message)
@@ -75,7 +79,7 @@ export const websocketReducer = handleActions<WebSocketState, PayloadType>({
             getStorage().removeItem(WEBSOCKET_HOST_KEY)
             host = defaultSettings.host
         }
-        return { ...state, host }
+        return { ...state, host, configurationChanged: true }
     },
     [ACTION_SET_PORT]: (state, action) => {
         const value = action.payload.port
@@ -87,6 +91,6 @@ export const websocketReducer = handleActions<WebSocketState, PayloadType>({
             getStorage().removeItem(WEBSOCKET_PORT_KEY)
             port = defaultSettings.port
         }
-        return { ...state, port }
+        return { ...state, port, configurationChanged: true }
     },
 }, initialState)
