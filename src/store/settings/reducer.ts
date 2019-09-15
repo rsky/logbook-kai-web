@@ -7,18 +7,18 @@ const SETTINGS_DEBUG_MODE_KEY = "logbook.settings.debugMode"
 const SETTINGS_MAX_LOG_RECORDS_KEY = "logbook.settings.maxLogRecords"
 const SETTINGS_UI_MODE_KEY = "logbook.setting.uiMode"
 
-const defaultSettings = {
-    uiMode: UIMode.SMART,
-    maxLogRecords: 10,
-}
-
 export type SettingsState = {
     uiMode: string;
     debugMode: boolean;
     maxLogRecords: number;
 }
 
-const initialState: SettingsState = (() => {
+const defaultSettings = {
+    uiMode: UIMode.SMART,
+    maxLogRecords: 10,
+}
+
+const getInitialState = (): SettingsState => {
     const state = {} as SettingsState
     const storage = getStorage()
 
@@ -39,7 +39,7 @@ const initialState: SettingsState = (() => {
     }
 
     return state
-})()
+}
 
 export const settingsReducer = handleActions<SettingsState, PayloadType>({
     [ACTION_SET_DEBUG_MODE]: (state, action) => {
@@ -70,4 +70,4 @@ export const settingsReducer = handleActions<SettingsState, PayloadType>({
         getStorage().setItem(SETTINGS_UI_MODE_KEY, uiMode)
         return { ...state, uiMode }
     },
-}, initialState)
+}, getInitialState())

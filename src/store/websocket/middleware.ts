@@ -9,22 +9,22 @@ import { receiveDeckPort, receiveMaterial } from "../port/actions"
 import { ACTION_CONNECT, ACTION_DISCONNECT } from "./actions"
 
 const messageHandler = (store: MiddlewareAPI<Dispatch<AnyAction>, LogbookState>) => (event: MessageEvent) => {
-    const root = KCSAPIData.fromPayload(JSON.parse(event.data))
+    const data = KCSAPIData.fromPayload(JSON.parse(event.data))
     const settings = store.getState().settings
     if (settings.debugMode) {
-        store.dispatch(addLogData(root, settings.maxLogRecords))
+        store.dispatch(addLogData(data, settings.maxLogRecords))
     }
 
-    const data = root.body.api_data
-    if (!data) {
+    const apiData = data.body.api_data
+    if (!apiData) {
         return
     }
 
-    if (data.api_material) {
-        store.dispatch(receiveMaterial(data.api_material))
+    if (apiData.api_material) {
+        store.dispatch(receiveMaterial(apiData.api_material))
     }
-    if (data.api_deck_port) {
-        store.dispatch(receiveDeckPort(data.api_deck_port))
+    if (apiData.api_deck_port) {
+        store.dispatch(receiveDeckPort(apiData.api_deck_port))
     }
 }
 
