@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { AppBar, Grid, Tabs } from "@material-ui/core"
-import { HomeIcon, SettingsIcon, DebugIcon, Tab } from "./Common"
+import { DebugIcon, HomeIcon, SettingsIcon, Tab } from "./Common"
 import { Debug } from "../Debug"
 import { Dump } from "../Dump"
 import { Port } from "../Port"

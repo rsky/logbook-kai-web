@@ -1,9 +1,6 @@
 import React from "react"
 import ReactJson from "react-json-view"
-import {
-    Container,
-    makeStyles,
-} from "@material-ui/core"
+import { Container, makeStyles } from "@material-ui/core"
 import { rootStyle } from "./layouts/Common"
 
 const useStyles = makeStyles({

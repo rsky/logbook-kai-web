@@ -1,10 +1,5 @@
 import { handleActions } from "redux-actions"
-import {
-    ACTION_SET_DEBUG_MODE,
-    ACTION_SET_MAX_LOG_RECORDS,
-    ACTION_SET_UI_MODE,
-    PayloadType,
-} from "./actions"
+import { ACTION_SET_DEBUG_MODE, ACTION_SET_MAX_LOG_RECORDS, ACTION_SET_UI_MODE, PayloadType } from "./actions"
 import { getStorage } from "../../utils/storage"
 import { UIMode } from "../../models/UIMode"
 

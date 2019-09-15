@@ -5,8 +5,8 @@ import {
     ACTION_ON_MESSAGE,
     ACTION_SET_HOST,
     ACTION_SET_PORT,
-    PayloadType,
     onMessage,
+    PayloadType,
 } from "./actions"
 import { getStore } from ".."
 import { getStorage } from "../../utils/storage"

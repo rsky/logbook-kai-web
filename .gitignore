@@ -3,4 +3,6 @@ lib/
 node_modules/
 .DS_Store
 .eslintcache
+.idea/
 .vscode/
+*.iml

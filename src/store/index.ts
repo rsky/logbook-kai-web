@@ -1,4 +1,4 @@
-import { AnyAction, Store, combineReducers, createStore } from "redux"
+import { AnyAction, combineReducers, createStore, Store } from "redux"
 import { settingsReducer, SettingsState } from "./settings/reducer"
 import { websocketReducer, WebSocketState } from "./websocket/reducer"
 
