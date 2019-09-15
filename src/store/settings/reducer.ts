@@ -1,7 +1,7 @@
 import { handleActions } from "redux-actions"
-import { ACTION_SET_DEBUG_MODE, ACTION_SET_MAX_LOG_RECORDS, ACTION_SET_UI_MODE, PayloadType } from "./actions"
-import { getStorage } from "../../utils/storage"
 import { UIMode } from "../../models/UIMode"
+import { getStorage } from "../../utils/storage"
+import { ACTION_SET_DEBUG_MODE, ACTION_SET_MAX_LOG_RECORDS, ACTION_SET_UI_MODE, PayloadType } from "./actions"
 
 const SETTINGS_DEBUG_MODE_KEY = "logbook.settings.debugMode"
 const SETTINGS_MAX_LOG_RECORDS_KEY = "logbook.settings.maxLogRecords"
