@@ -1,4 +1,5 @@
-import { AnyAction, combineReducers, createStore, Store } from "redux"
+import { AnyAction, applyMiddleware, combineReducers, createStore, Store } from "redux"
+import { createLogger } from "redux-logger"
 import { settingsReducer, SettingsState } from "./settings/reducer"
 import { websocketReducer, WebSocketState } from "./websocket/reducer"
 
@@ -16,7 +17,14 @@ export const configureStore = (): Store<unknown, AnyAction> => {
         settings: settingsReducer,
         websocket: websocketReducer,
     }
-    const store = createStore(combineReducers(reducers))
+    const middlewares = []
+    if (!PRODUCTION) {
+        middlewares.push(createLogger({
+            collapsed: true,
+            diff: true,
+        }))
+    }
+    const store = createStore(combineReducers(reducers), applyMiddleware(...middlewares))
     storeHolder.store = store
     return store
 }
