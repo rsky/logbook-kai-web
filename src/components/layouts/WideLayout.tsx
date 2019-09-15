@@ -1,5 +1,7 @@
 import React, { useState } from "react"
+import { useSelector } from "react-redux"
 import { AppBar, Grid, Tabs } from "@material-ui/core"
+import { LogbookState } from "../../store"
 import { DebugIcon, HomeIcon, SettingsIcon, Tab } from "./Common"
 import { Debug } from "../Debug"
 import { Dump } from "../Dump"
@@ -9,6 +11,7 @@ import { Settings } from "../Settings"
 const INDEX_SETTINGS = 1
 
 type WideLayoutProps = {
+    deckNames: Array<string>;
     debugModeEnabled: boolean;
     settingsActivated: boolean;
     setSettingsActive: (_: boolean) => void;
@@ -36,18 +39,8 @@ const LeftPane: React.SFC<LeftPaneProps> = ({ index }) => {
 }
 
 const RightPane: React.SFC<RightPaneProps> = ({ index }) => {
-    switch (index) {
-    case 0:
-        return <Dump data={{ name: "第1艦隊" }} />
-    case 1:
-        return <Dump data={{ name: "第1艦隊" }} />
-    case 2:
-        return <Dump data={{ name: "第1艦隊" }} />
-    case 3:
-        return <Dump data={{ name: "第1艦隊" }} />
-    default:
-        return null
-    }
+    const port = useSelector((state: LogbookState) => state.port)
+    return <Dump data={port.decks[index]} />
 }
 
 export const WideLayout: React.SFC<WideLayoutProps> = props => {
@@ -82,10 +75,10 @@ export const WideLayout: React.SFC<WideLayoutProps> = props => {
                             scrollButtons="auto"
                             indicatorColor="primary"
                         >
-                            <Tab label="第1艦隊" />
-                            <Tab label="第2艦隊" />
-                            <Tab label="第3艦隊" />
-                            <Tab label="第4艦隊" />
+                            <Tab label={props.deckNames[0]} />
+                            <Tab label={props.deckNames[1]} />
+                            <Tab label={props.deckNames[2]} />
+                            <Tab label={props.deckNames[3]} />
                         </Tabs>
                     </Grid>
                 </Grid>

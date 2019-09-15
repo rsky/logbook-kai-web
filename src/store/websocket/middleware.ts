@@ -1,14 +1,30 @@
 import { Middleware, MiddlewareAPI, Dispatch, AnyAction } from "redux"
+
 import { KCSAPIData } from "../../models/KCSAPIData"
 import { LogbookState } from ".."
+
 import { addLogData } from "../debug/actions"
+import { receiveDeckPort, receiveMaterial } from "../port/actions"
+
 import { ACTION_CONNECT, ACTION_DISCONNECT } from "./actions"
 
 const messageHandler = (store: MiddlewareAPI<Dispatch<AnyAction>, LogbookState>) => (event: MessageEvent) => {
-    const data = KCSAPIData.fromPayload(JSON.parse(event.data))
+    const root = KCSAPIData.fromPayload(JSON.parse(event.data))
     const settings = store.getState().settings
     if (settings.debugMode) {
-        store.dispatch(addLogData(data, settings.maxLogRecords))
+        store.dispatch(addLogData(root, settings.maxLogRecords))
+    }
+
+    const data = root.body.api_data
+    if (!data) {
+        return
+    }
+
+    if (data.api_material) {
+        store.dispatch(receiveMaterial(data.api_material))
+    }
+    if (data.api_deck_port) {
+        store.dispatch(receiveDeckPort(data.api_deck_port))
     }
 }
 

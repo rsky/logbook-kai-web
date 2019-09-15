@@ -8,13 +8,18 @@ import { WideLayout } from "./layouts/WideLayout"
 
 export const Logbook: React.SFC = () => {
     const settings = useSelector((state: LogbookState) => state.settings)
+    const port = useSelector((state: LogbookState) => state.port)
     const [settingsActivated, setSettingsActive] = useState(false)
+    const dispatch = useDispatch()
+
+    const deckNames = ["第1艦隊", "第2艦隊", "第3艦隊", "第４艦隊"]
+    port.decks.forEach((deck, index) => (deckNames[index] = deck.name))
     const layoutProps = {
         debugModeEnabled: settings.debugMode,
         settingsActivated,
         setSettingsActive,
+        deckNames,
     }
-    const dispatch = useDispatch()
 
     useEffect(() => {
         dispatch(connect())

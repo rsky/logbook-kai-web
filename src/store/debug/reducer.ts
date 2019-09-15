@@ -12,7 +12,7 @@ export type DebugState = {
     logData: Array<KCSAPIData>;
 }
 
-const getIniitalState = (): DebugState => ({
+const getInitialState = (): DebugState => ({
     selectedData: undefined,
     logData: [],
 })
@@ -37,5 +37,5 @@ export const debugReducer = handleActions<DebugState, PayloadType>({
         const selectedData = state.logData[index]
         return { ...state, selectedData }
     },
-    [ACTION_TRUNCATE_LOG_DATA]: () => getIniitalState(),
-}, getIniitalState())
+    [ACTION_TRUNCATE_LOG_DATA]: () => getInitialState(),
+}, getInitialState())

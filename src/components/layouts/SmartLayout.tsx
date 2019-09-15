@@ -1,5 +1,7 @@
 import React, { useState } from "react"
+import { useSelector } from "react-redux"
 import { AppBar, Tabs } from "@material-ui/core"
+import { LogbookState } from "../../store"
 import { DebugIcon, HomeIcon, SettingsIcon, Tab } from "./Common"
 import { Debug } from "../Debug"
 import { Dump } from "../Dump"
@@ -9,6 +11,7 @@ import { Settings } from "../Settings"
 const INDEX_SETTINGS = 5
 
 type SmartLayoutProps = {
+    deckNames: Array<string>;
     debugModeEnabled: boolean;
     settingsActivated: boolean;
     setSettingsActive: (_: boolean) => void;
@@ -19,17 +22,15 @@ type MainPaneProps = {
 }
 
 const MainPane: React.SFC<MainPaneProps> = ({ index }) => {
+    const port = useSelector((state: LogbookState) => state.port)
     switch (index) {
     case 0:
         return <Port />
     case 1:
-        return <Dump data={{ name: "第1艦隊" }} />
     case 2:
-        return <Dump data={{ name: "第2艦隊" }} />
     case 3:
-        return <Dump data={{ name: "第3艦隊" }} />
     case 4:
-        return <Dump data={{ name: "第4艦隊" }} />
+        return <Dump data={port.decks[index - 1]} />
     case 5:
         return <Settings />
     case 6:
@@ -55,10 +56,10 @@ export const SmartLayout: React.SFC<SmartLayoutProps> = props => {
                     indicatorColor="primary"
                 >
                     <Tab icon={<HomeIcon />} />
-                    <Tab label="第1艦隊" />
-                    <Tab label="第2艦隊" />
-                    <Tab label="第3艦隊" />
-                    <Tab label="第4艦隊" />
+                    <Tab label={props.deckNames[0]} />
+                    <Tab label={props.deckNames[1]} />
+                    <Tab label={props.deckNames[2]} />
+                    <Tab label={props.deckNames[3]} />
                     <Tab icon={<SettingsIcon />} />
                     {props.debugModeEnabled && (
                         <Tab icon={<DebugIcon />} />

@@ -1,5 +1,10 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type Data = Record<string, any>
+export type Data = Record<string, any>
+
+export type IdAndValue = {
+    api_id: number;
+    api_value: number;
+}
 
 type KCSAPIPayload = {
     uri: string;

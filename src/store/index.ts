@@ -1,22 +1,21 @@
-import { AnyAction, applyMiddleware, combineReducers, createStore, Store } from "redux"
+import { applyMiddleware, combineReducers, createStore, Store } from "redux"
 import { createLogger } from "redux-logger"
 
 import { debugReducer, DebugState } from "./debug/reducer"
+import { portReducer, PortState } from "./port/reducer"
 import { settingsReducer, SettingsState } from "./settings/reducer"
 import { webSocketMiddleware } from "./websocket/middleware"
 
-type StoreHolder = { store: Store<unknown, AnyAction> }
-
-const storeHolder = {} as StoreHolder
-
 export type LogbookState = {
     debug: DebugState;
+    port: PortState;
     settings: SettingsState;
 }
 
-export const configureStore = (): Store<unknown, AnyAction> => {
+export const configureStore = (): Store => {
     const reducers = {
         debug: debugReducer,
+        port: portReducer,
         settings: settingsReducer,
     }
     const middlewares = [webSocketMiddleware()]
@@ -26,9 +25,5 @@ export const configureStore = (): Store<unknown, AnyAction> => {
             diff: true,
         }))
     }
-    const store = createStore(combineReducers(reducers), applyMiddleware(...middlewares))
-    storeHolder.store = store
-    return store
+    return createStore(combineReducers(reducers), applyMiddleware(...middlewares))
 }
-
-export const getStore = (): Store => storeHolder.store
