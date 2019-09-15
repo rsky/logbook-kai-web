@@ -1,19 +1,18 @@
 import { Middleware, MiddlewareAPI, Dispatch, AnyAction } from "redux"
-import { KCSAPIPayload } from "../../models/KCSAPIPayload"
+import { KCSAPIData } from "../../models/KCSAPIData"
 import { LogbookState } from ".."
 import { addLogData } from "../debug/actions"
 import { ACTION_CONNECT, ACTION_DISCONNECT } from "./actions"
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const makeMessageHandler = (store: MiddlewareAPI<Dispatch<AnyAction>, any>) => (event: MessageEvent) => {
-    const payload = JSON.parse(event.data) as KCSAPIPayload
-    const settings = (store.getState() as LogbookState).settings
+const messageHandler = (store: MiddlewareAPI<Dispatch<AnyAction>, LogbookState>) => (event: MessageEvent) => {
+    const data = KCSAPIData.fromPayload(JSON.parse(event.data))
+    const settings = store.getState().settings
     if (settings.debugMode) {
-        store.dispatch(addLogData(payload, settings.maxLogRecords))
+        store.dispatch(addLogData(data, settings.maxLogRecords))
     }
 }
 
-const getWebSocketHost = (): String => PRODUCTION ? location.host : "127.0.0.1:10080"
+const getWebSocketHost = (): string => location.protocol === "file:" ? "127.0.0.1:10080" : location.host
 
 export const webSocketMiddleware = (): Middleware => {
     let socket: WebSocket | null = null
@@ -25,7 +24,7 @@ export const webSocketMiddleware = (): Middleware => {
                 socket.close()
             }
             socket = new WebSocket(`ws://${getWebSocketHost()}/sub`)
-            socket.onmessage = makeMessageHandler(store)
+            socket.onmessage = messageHandler(store)
             break
         case ACTION_DISCONNECT:
             if (socket) {

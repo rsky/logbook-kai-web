@@ -1,8 +1,9 @@
 import React from "react"
 import ReactJson from "react-json-view"
+import fecha from "fecha"
 import { Container, makeStyles, MenuItem, Select } from "@material-ui/core"
 import { useDispatch, useSelector } from "react-redux"
-import { KCSAPIPayload } from "../models/KCSAPIPayload"
+import { KCSAPIData } from "../models/KCSAPIData"
 import { selectLogData } from "../store/debug/actions"
 import { LogbookState } from "../store"
 import { rootStyle } from "./layouts/Common"
@@ -19,10 +20,7 @@ const useStyles = makeStyles({
     },
 })
 
-const nullData: KCSAPIPayload = {
-    requestURI: "",
-    responseJSON: null,
-}
+const nullData = new KCSAPIData("", 0, {})
 
 export const Debug: React.SFC = () => {
     const classes = useStyles()
@@ -39,14 +37,15 @@ export const Debug: React.SFC = () => {
                     variant="filled"
                 >
                     <MenuItem value={0}>-</MenuItem>
-                    {debugState.logData.map((value, index) => (
-                        <MenuItem key={index} value={index + 1}>{value.requestURI}</MenuItem>
-                    ))}
+                    {debugState.logData.map((value, index) => {
+                        const date = fecha.format(value.date, "YYYY-MM-DD hh:mm:ss.SSS")
+                        return <MenuItem key={value.key} value={index + 1}>{date} {value.uri}</MenuItem>
+                    })}
                 </Select>
             </div>
             {debugState.selectedData && (
                 <ReactJson
-                    src={debugState.selectedData.responseJSON}
+                    src={debugState.selectedData.body}
                     theme="google"
                 />
             )}
