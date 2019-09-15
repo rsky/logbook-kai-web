@@ -13,6 +13,8 @@ const makeMessageHandler = (store: MiddlewareAPI<Dispatch<AnyAction>, any>) => (
     }
 }
 
+const getWebSocketHost = (): String => PRODUCTION ? location.host : "127.0.0.1:10080"
+
 export const webSocketMiddleware = (): Middleware => {
     let socket: WebSocket | null = null
 
@@ -22,7 +24,7 @@ export const webSocketMiddleware = (): Middleware => {
             if (socket) {
                 socket.close()
             }
-            socket = new WebSocket(`ws://${location.host}/socket`)
+            socket = new WebSocket(`ws://${getWebSocketHost()}/sub`)
             socket.onmessage = makeMessageHandler(store)
             break
         case ACTION_DISCONNECT:
