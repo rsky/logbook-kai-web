@@ -2,10 +2,10 @@ import { Data } from "./KCSAPIData"
 import { KCSModel } from "./KCSModel"
 
 export class Deck extends KCSModel {
-    id: number;
-    name: string;
-    ships: Array<number>;
-    missions: Array<number>;
+    readonly id: number;
+    readonly name: string;
+    readonly ships: number[];
+    readonly missions: number[];
 
     constructor (data: Data) {
         super(data)

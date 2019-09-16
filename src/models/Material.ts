@@ -1,38 +1,48 @@
 import { IdAndValue } from "./KCSAPIData"
 import { KCSModel } from "./KCSModel"
 
+enum MaterialID {
+    FUEL = 1,
+    AMMUNITION = 2,
+    STEEL = 3,
+    BAUXITE = 4,
+    BURNER = 5,
+    BUCKET = 6,
+    NAIL = 7,
+    SCREW = 8,
+}
+
 export class Material extends KCSModel {
     // 燃料
-    fuel = 0
+    readonly fuel: number;
     // 弾薬
-    ammunition = 0
+    readonly ammunition: number;
     // 鋼材
-    steel = 0
+    readonly steel: number;
     // ボーキサイト
-    bauxite = 0
+    readonly bauxite: number;
     // 高速建造剤
-    burner = 0
+    readonly burner: number;
     // 高速修復材
-    bucket = 0
+    readonly bucket: number;
     // 開発資材
-    nail = 0
+    readonly nail: number;
     // 改修資材
-    screw = 0
+    readonly screw: number;
 
-    constructor (data: Array<IdAndValue>) {
+    constructor (data: IdAndValue[]) {
         super(data)
-        for (const entry of data) {
-            const value = entry.api_value
-            switch (entry.api_id) {
-            case 1: this.fuel = value; break
-            case 2: this.ammunition = value; break
-            case 3: this.steel = value; break
-            case 4: this.bauxite = value; break
-            case 5: this.burner = value; break
-            case 6: this.bucket = value; break
-            case 7: this.nail = value; break
-            case 8: this.screw = value; break
-            }
+        const lookup = (id: number): number => {
+            const entry = data.find(entry => entry.api_id === id)
+            return entry ? entry.api_value : 0
         }
+        this.fuel = lookup(MaterialID.FUEL)
+        this.ammunition = lookup(MaterialID.AMMUNITION)
+        this.steel = lookup(MaterialID.STEEL)
+        this.bauxite = lookup(MaterialID.BAUXITE)
+        this.burner = lookup(MaterialID.BURNER)
+        this.bucket = lookup(MaterialID.BUCKET)
+        this.nail = lookup(MaterialID.NAIL)
+        this.screw = lookup(MaterialID.SCREW)
     }
 }

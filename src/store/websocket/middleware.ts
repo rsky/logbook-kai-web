@@ -1,4 +1,4 @@
-import { Middleware, MiddlewareAPI, Dispatch, AnyAction } from "redux"
+import { AnyAction, Dispatch, Middleware, MiddlewareAPI } from "redux"
 
 import { KCSAPIData } from "../../models/KCSAPIData"
 import { LogbookState } from ".."

@@ -11,7 +11,7 @@ import { Settings } from "../Settings"
 const INDEX_SETTINGS = 5
 
 type SmartLayoutProps = {
-    deckNames: Array<string>;
+    deckNames: string[];
     debugModeEnabled: boolean;
     settingsActivated: boolean;
     setSettingsActive: (_: boolean) => void;

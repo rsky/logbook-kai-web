@@ -5,7 +5,7 @@ import { ACTION_SET_DEBUG_MODE, ACTION_SET_MAX_LOG_RECORDS, ACTION_SET_UI_MODE, 
 
 const SETTINGS_DEBUG_MODE_KEY = "logbook.settings.debugMode"
 const SETTINGS_MAX_LOG_RECORDS_KEY = "logbook.settings.maxLogRecords"
-const SETTINGS_UI_MODE_KEY = "logbook.setting.uiMode"
+const SETTINGS_UI_MODE_KEY = "logbook.settings.uiMode"
 
 export type SettingsState = {
     uiMode: string;
@@ -32,7 +32,7 @@ const getInitialState = (): SettingsState => {
     }
 
     const uiMode = storage.getItem(SETTINGS_UI_MODE_KEY)
-    if (uiMode && (Object.values(UIMode) as Array<string>).includes(uiMode)) {
+    if (uiMode && (Object.values(UIMode) as string[]).includes(uiMode)) {
         state.uiMode = uiMode
     } else {
         state.uiMode = defaultSettings.uiMode

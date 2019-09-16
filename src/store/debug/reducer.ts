@@ -1,15 +1,10 @@
 import { handleActions } from "redux-actions"
 import { KCSAPIData } from "../../models/KCSAPIData"
-import {
-    ACTION_ADD_LOG_DATA,
-    ACTION_SELECT_LOG_DATA,
-    ACTION_TRUNCATE_LOG_DATA,
-    PayloadType,
-} from "./actions"
+import { ACTION_ADD_LOG_DATA, ACTION_SELECT_LOG_DATA, ACTION_TRUNCATE_LOG_DATA, PayloadType } from "./actions"
 
 export type DebugState = {
     selectedData?: KCSAPIData;
-    logData: Array<KCSAPIData>;
+    logData: KCSAPIData[];
 }
 
 const getInitialState = (): DebugState => ({
@@ -21,10 +16,9 @@ export const debugReducer = handleActions<DebugState, PayloadType>({
     [ACTION_ADD_LOG_DATA]: (state, action) => {
         const data = action.payload.data as KCSAPIData
         const limit = action.payload.limit as number
-        let logData: Array<KCSAPIData>
+        let logData: KCSAPIData[]
         if (limit > 0) {
-            logData = state.logData.slice(0, limit - 1)
-            logData.unshift(data)
+            logData = [data, ...state.logData.slice(0, limit - 1)]
         } else if (limit < 0) {
             logData = [data, ...state.logData]
         } else {

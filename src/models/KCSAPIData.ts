@@ -14,10 +14,10 @@ type KCSAPIPayload = {
 }
 
 export class KCSAPIData {
-    uri: string;
-    date: Date;
-    body: Data;
-    key: string;
+    readonly uri: string;
+    readonly date: Date;
+    readonly body: Data;
+    readonly key: string;
 
     constructor (uri: string, date: number, body: Data) {
         this.uri = uri

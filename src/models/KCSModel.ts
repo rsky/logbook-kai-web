@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export class KCSModel {
-    private rawData: any;
+export abstract class KCSModel {
+    private _rawData: any;
 
     constructor (data: any) {
-        this.rawData = data
+        this._rawData = data
     }
 
     getRawData (): any {
-        return this.rawData
+        return this._rawData
     }
 }
 /* eslint-enable */
