@@ -16,7 +16,7 @@ const config = {
         rules: [{
             // Include ts, tsx, js, and jsx files.
             test: /\.(ts|js)x?$/,
-            exclude: /node_modules/,
+            exclude: [ "/node_modules/", "/src/@types/" ],
             loader: "babel-loader",
         }],
     },
