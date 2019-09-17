@@ -1,10 +1,10 @@
 import { handleActions } from "redux-actions"
-import { KCSAPIData } from "../../models/KCSAPIData"
+import { WebBridgeRecord } from "../../models/KCSAPIStruct"
 import { ACTION_ADD_LOG_DATA, ACTION_SELECT_LOG_DATA, ACTION_TRUNCATE_LOG_DATA, PayloadType } from "./actions"
 
 export type DebugState = {
-    selectedData?: KCSAPIData;
-    logData: KCSAPIData[];
+    selectedData?: WebBridgeRecord;
+    logData: Array<WebBridgeRecord>;
 }
 
 const getInitialState = (): DebugState => ({
@@ -14,9 +14,9 @@ const getInitialState = (): DebugState => ({
 
 export const debugReducer = handleActions<DebugState, PayloadType>({
     [ACTION_ADD_LOG_DATA]: (state, action) => {
-        const data = action.payload.data as KCSAPIData
+        const data = action.payload.data as WebBridgeRecord
         const limit = action.payload.limit as number
-        let logData: KCSAPIData[]
+        let logData: WebBridgeRecord[]
         if (limit > 0) {
             logData = [data, ...state.logData.slice(0, limit - 1)]
         } else if (limit < 0) {

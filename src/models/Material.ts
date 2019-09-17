@@ -1,4 +1,4 @@
-import { IdAndValue } from "./KCSAPIData"
+import { IdAndValue } from "./KCSAPIStruct"
 import { KCSModel } from "./KCSModel"
 
 enum MaterialID {

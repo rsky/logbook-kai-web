@@ -1,6 +1,6 @@
 import { AnyAction, Dispatch, Middleware, MiddlewareAPI } from "redux"
 
-import { KCSAPIData } from "../../models/KCSAPIData"
+import { WebBridgeRecord } from "../../models/KCSAPIStruct"
 import { LogbookState } from ".."
 
 import { addLogData } from "../debug/actions"
@@ -9,7 +9,7 @@ import { receiveDeckPort, receiveMaterial } from "../port/actions"
 import { ACTION_CONNECT, ACTION_DISCONNECT } from "./actions"
 
 const messageHandler = (store: MiddlewareAPI<Dispatch<AnyAction>, LogbookState>) => (event: MessageEvent) => {
-    const data = KCSAPIData.fromPayload(JSON.parse(event.data))
+    const data = WebBridgeRecord.fromPayload(JSON.parse(event.data))
     const settings = store.getState().settings
     if (settings.debugMode) {
         store.dispatch(addLogData(data, settings.maxLogRecords))

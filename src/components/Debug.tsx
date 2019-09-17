@@ -3,7 +3,7 @@ import ReactJson from "react-json-view"
 import fecha from "fecha"
 import { Container, makeStyles, MenuItem, Select } from "@material-ui/core"
 import { useDispatch, useSelector } from "react-redux"
-import { KCSAPIData } from "../models/KCSAPIData"
+import { WebBridgeRecord } from "../models/KCSAPIStruct"
 import { selectLogData } from "../store/debug/actions"
 import { LogbookState } from "../store"
 import { rootStyle } from "./layouts/Common"
@@ -20,7 +20,7 @@ const useStyles = makeStyles({
     },
 })
 
-const nullData = new KCSAPIData("", 0, {})
+const nullData = new WebBridgeRecord("", 0, {})
 
 export const Debug: React.SFC = () => {
     const classes = useStyles()

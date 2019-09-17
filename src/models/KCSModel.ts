@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
 export abstract class KCSModel {
     private _rawData: any;
 
@@ -10,4 +11,5 @@ export abstract class KCSModel {
         return this._rawData
     }
 }
+
 /* eslint-enable */
