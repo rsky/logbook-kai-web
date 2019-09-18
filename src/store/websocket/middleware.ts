@@ -1,6 +1,7 @@
 import { AnyAction, Dispatch, Middleware, MiddlewareAPI } from "redux"
 
 import { WebBridgeRecord } from "../../models/KCSAPIStruct"
+import { getWebSocketURI } from "../../utils/webapp"
 import { LogbookState } from ".."
 
 import { addLogData } from "../debug/actions"
@@ -28,8 +29,6 @@ const messageHandler = (store: MiddlewareAPI<Dispatch<AnyAction>, LogbookState>)
     }
 }
 
-const getWebSocketHost = (): string => location.protocol === "file:" ? "127.0.0.1:10080" : location.host
-
 export const webSocketMiddleware = (): Middleware => {
     let socket: WebSocket | null = null
 
@@ -39,7 +38,7 @@ export const webSocketMiddleware = (): Middleware => {
             if (socket) {
                 socket.close()
             }
-            socket = new WebSocket(`ws://${getWebSocketHost()}/sub`)
+            socket = new WebSocket(getWebSocketURI())
             socket.onmessage = messageHandler(store)
             break
         case ACTION_DISCONNECT:

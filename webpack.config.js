@@ -35,6 +35,7 @@ module.exports = (env, argv) => {
     config.plugins.push(
         new webpack.DefinePlugin({
             PRODUCTION: JSON.stringify(production),
+            DEFAULT_HOST: JSON.stringify("127.0.0.1:10080"),
         }),
     )
 
