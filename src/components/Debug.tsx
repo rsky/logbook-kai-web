@@ -38,7 +38,7 @@ export const Debug: React.SFC = () => {
                 >
                     <MenuItem value={0}>-</MenuItem>
                     {debugState.apiLogRecords.map((record, index) => {
-                        const date = fecha.format(record.date, "YYYY-MM-DD hh:mm:ss.SSS")
+                        const date = fecha.format(record.date, "YYYY-MM-DD HH:mm:ss.SSS")
                         return <MenuItem key={record.key} value={index + 1}>{date} {record.uri}</MenuItem>
                     })}
                 </Select>
