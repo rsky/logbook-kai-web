@@ -27,15 +27,17 @@ module.exports = {
   ],
   rules: {
     "comma-dangle": ["error", "only-multiline"],
-    "eol-last": ["error", "unix"],
+    "eol-last":["error", "unix"],
+    "func-style": ["error", "expression"],
     indent: ["error", 4],
     "linebreak-style": ["error", "unix"],
     "no-console": "warn",
+    "prefer-arrow-callback": "error",
     quotes: ["error", "double"],
     "react/jsx-uses-vars": "warn",
     semi: ["error", "never"],
     "@typescript-eslint/explicit-function-return-type": ["warn", {
-      "allowExpressions": true,
+      allowExpressions: true,
     }],
   }
 }
