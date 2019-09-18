@@ -16,7 +16,7 @@ export type PortState = {
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-const buildDecks = (data: any): Deck[] => data.map((data: any) => new Deck(data))
+const buildDecks = (decs: any): Deck[] => decs.map((deck: any) => new Deck(deck))
 
 const save = (key: string, value: any): void => getStorage().setItem(key, JSON.stringify(value))
 

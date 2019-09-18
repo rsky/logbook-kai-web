@@ -1,35 +1,37 @@
 import { handleActions } from "redux-actions"
+
 import { WebBridgeRecord } from "../../models/KCSAPIStruct"
+
 import { ACTION_ADD_LOG_DATA, ACTION_SELECT_LOG_DATA, ACTION_TRUNCATE_LOG_DATA, PayloadType } from "./actions"
 
 export type DebugState = {
-    selectedData?: WebBridgeRecord;
-    logData: Array<WebBridgeRecord>;
+    selectedRecord?: WebBridgeRecord;
+    apiLogRecords: Array<WebBridgeRecord>;
 }
 
 const getInitialState = (): DebugState => ({
-    selectedData: undefined,
-    logData: [],
+    selectedRecord: undefined,
+    apiLogRecords: [],
 })
 
 export const debugReducer = handleActions<DebugState, PayloadType>({
     [ACTION_ADD_LOG_DATA]: (state, action) => {
-        const data = action.payload.data as WebBridgeRecord
+        const record = action.payload.record as WebBridgeRecord
         const limit = action.payload.limit as number
-        let logData: WebBridgeRecord[]
+        let records: WebBridgeRecord[]
         if (limit > 0) {
-            logData = [data, ...state.logData.slice(0, limit - 1)]
+            records = [record, ...state.apiLogRecords.slice(0, limit - 1)]
         } else if (limit < 0) {
-            logData = [data, ...state.logData]
+            records = [record, ...state.apiLogRecords]
         } else {
-            logData = []
+            records = []
         }
-        return { ...state, logData }
+        return { ...state, apiLogRecords: records }
     },
     [ACTION_SELECT_LOG_DATA]: (state, action) => {
         const index = action.payload.index as number
-        const selectedData = state.logData[index]
-        return { ...state, selectedData }
+        const record = state.apiLogRecords[index]
+        return { ...state, selectedRecord: record }
     },
     [ACTION_TRUNCATE_LOG_DATA]: () => getInitialState(),
 }, getInitialState())

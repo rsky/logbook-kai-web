@@ -11,7 +11,7 @@ type IdAndValue = {
 
 type WebBridgePayload = {
     uri: string;
-    date: number;
+    time: number;
     body: any;
 }
 
@@ -23,15 +23,15 @@ class WebBridgeRecord {
     readonly body: AnyDict;
     readonly key: string;
 
-    constructor (uri: string, date: number, body: AnyDict) {
+    constructor (uri: string, timestamp: number, body: AnyDict) {
         this.uri = uri
-        this.date = new Date(date)
+        this.date = new Date(timestamp)
         this.body = body
-        this.key = `${date}:${uri}`
+        this.key = `${timestamp}:${uri}`
     }
 
     static fromPayload (payload: WebBridgePayload): WebBridgeRecord {
-        return new WebBridgeRecord(payload.uri, payload.date, payload.body)
+        return new WebBridgeRecord(payload.uri, payload.time, payload.body)
     }
 }
 

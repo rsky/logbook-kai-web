@@ -20,13 +20,13 @@ const useStyles = makeStyles({
     },
 })
 
-const nullData = new WebBridgeRecord("", 0, {})
+const nullRecord = new WebBridgeRecord("", 0, {})
 
 export const Debug: React.SFC = () => {
     const classes = useStyles()
     const dispatch = useDispatch()
     const debugState = useSelector((state: LogbookState) => state.debug)
-    const selectedIndex = debugState.logData.indexOf(debugState.selectedData || nullData) + 1
+    const selectedIndex = debugState.apiLogRecords.indexOf(debugState.selectedRecord || nullRecord) + 1
     return (
         <Container className={classes.root}>
             <div className={classes.head}>
@@ -37,15 +37,15 @@ export const Debug: React.SFC = () => {
                     variant="filled"
                 >
                     <MenuItem value={0}>-</MenuItem>
-                    {debugState.logData.map((value, index) => {
-                        const date = fecha.format(value.date, "YYYY-MM-DD hh:mm:ss.SSS")
-                        return <MenuItem key={value.key} value={index + 1}>{date} {value.uri}</MenuItem>
+                    {debugState.apiLogRecords.map((record, index) => {
+                        const date = fecha.format(record.date, "YYYY-MM-DD hh:mm:ss.SSS")
+                        return <MenuItem key={record.key} value={index + 1}>{date} {record.uri}</MenuItem>
                     })}
                 </Select>
             </div>
-            {debugState.selectedData && (
+            {debugState.selectedRecord && (
                 <ReactJson
-                    src={debugState.selectedData.body}
+                    src={debugState.selectedRecord.body}
                     theme="google"
                 />
             )}
