@@ -1,16 +1,16 @@
 import { handleActions } from "redux-actions"
 
 import { Deck } from "../../models/Deck"
-import { Material } from "../../models/Material"
+import { Materials } from "../../models/Material"
 import { getStorage } from "../../utils/storage"
 
 import { ACTION_RECEIVE_DECK_PORT, ACTION_RECEIVE_MATERIAL, PayloadType } from "./actions"
 
 const PORT_DECKS_KEY = "logbook.port.decks"
-const PORT_MATERIAL_KEY = "logbook.port.material"
+const PORT_MATERIALS_KEY = "logbook.port.materials"
 
 export type PortState = {
-    material: Material;
+    materials: Materials;
     decks: Deck[];
 }
 
@@ -33,11 +33,11 @@ const getInitialState = (): PortState => {
         state.decks = []
     }
 
-    const mateial = storage.getItem(PORT_MATERIAL_KEY)
+    const mateial = storage.getItem(PORT_MATERIALS_KEY)
     if (mateial) {
-        state.material = new Material(JSON.parse(mateial))
+        state.materials = new Materials(JSON.parse(mateial))
     } else {
-        state.material = new Material([])
+        state.materials = new Materials([])
     }
 
     return state
@@ -50,8 +50,8 @@ export const portReducer = handleActions<PortState, PayloadType>({
         return { ...state, decks }
     },
     [ACTION_RECEIVE_MATERIAL]: (state, action) => {
-        const material = new Material(action.payload.data)
-        save(PORT_MATERIAL_KEY, material.getRawData())
-        return { ...state, material }
+        const materials = new Materials(action.payload.data)
+        save(PORT_MATERIALS_KEY, materials.getRawData())
+        return { ...state, materials }
     },
 }, getInitialState())

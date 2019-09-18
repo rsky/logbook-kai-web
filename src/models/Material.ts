@@ -1,7 +1,7 @@
 import { IdAndValue } from "./KCSAPIStruct"
 import { KCSModel } from "./KCSModel"
 
-enum MaterialID {
+export enum MaterialID {
     FUEL = 1,
     AMMUNITION = 2,
     STEEL = 3,
@@ -12,29 +12,40 @@ enum MaterialID {
     SCREW = 8,
 }
 
-export class Material extends KCSModel {
+export class Material {
+    readonly id: MaterialID;
+    readonly amount: number;
+
+    constructor (id: MaterialID, amount: number) {
+        this.id = id
+        this.amount = amount
+    }
+}
+
+export class Materials extends KCSModel {
     // 燃料
-    readonly fuel: number;
+    readonly fuel: Material;
     // 弾薬
-    readonly ammunition: number;
+    readonly ammunition: Material;
     // 鋼材
-    readonly steel: number;
+    readonly steel: Material;
     // ボーキサイト
-    readonly bauxite: number;
+    readonly bauxite: Material;
     // 高速建造剤
-    readonly burner: number;
+    readonly burner: Material;
     // 高速修復材
-    readonly bucket: number;
+    readonly bucket: Material;
     // 開発資材
-    readonly nail: number;
+    readonly nail: Material;
     // 改修資材
-    readonly screw: number;
+    readonly screw: Material;
 
     constructor (data: IdAndValue[]) {
         super(data)
-        const lookup = (id: number): number => {
+        const lookup = (id: MaterialID): Material => {
             const entry = data.find(entry => entry.api_id === id)
-            return entry ? entry.api_value : 0
+            const amount = entry ? entry.api_value : 0
+            return new Material(id, amount)
         }
         this.fuel = lookup(MaterialID.FUEL)
         this.ammunition = lookup(MaterialID.AMMUNITION)
