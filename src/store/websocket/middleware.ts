@@ -1,36 +1,34 @@
 import { AnyAction, Dispatch, Middleware, MiddlewareAPI } from "redux"
 
+import { addLogData } from "../debug/actions"
+import { listenersToMap, loadAllListeners, ListenersMap } from "../../listeners"
 import { WebBridgeRecord } from "../../models/KCSAPIStruct"
 import { getWebSocketURI } from "../../utils/webapp"
 import { LogbookState } from ".."
 
-import { addLogData } from "../debug/actions"
-import { receiveDeckPort, receiveMaterial } from "../port/actions"
-
 import { ACTION_CONNECT, ACTION_DISCONNECT } from "./actions"
 
-const messageHandler = (store: MiddlewareAPI<Dispatch<AnyAction>, LogbookState>) => (event: MessageEvent) => {
-    const data = WebBridgeRecord.fromPayload(JSON.parse(event.data))
+const messageHandler = (
+    store: MiddlewareAPI<Dispatch<AnyAction>, LogbookState>,
+    listenersMap: ListenersMap,
+) => (event: MessageEvent) => {
+    const record = WebBridgeRecord.fromPayload(JSON.parse(event.data))
     const settings = store.getState().settings
+    const dispatch = store.dispatch
+
     // `/kcsapi/api_start2/getData` is too large to dump
-    if (settings.debugMode && data.uri !== "/kcsapi/api_start2/getData") {
-        store.dispatch(addLogData(data, settings.maxLogRecords))
+    if (settings.debugMode && record.uri !== "/kcsapi/api_start2/getData") {
+        dispatch(addLogData(record, settings.maxLogRecords))
     }
 
-    const apiData = data.body.api_data
-    if (!apiData) {
-        return
-    }
-
-    if (apiData.api_material) {
-        store.dispatch(receiveMaterial(apiData.api_material))
-    }
-    if (apiData.api_deck_port) {
-        store.dispatch(receiveDeckPort(apiData.api_deck_port))
+    listenersMap.all.forEach(listener => listener.accept(dispatch, record))
+    if (listenersMap[record.uri]) {
+        listenersMap[record.uri].forEach(listener => listener.accept(dispatch, record))
     }
 }
 
 export const webSocketMiddleware = (): Middleware => {
+    const listenersMap = listenersToMap(loadAllListeners())
     let socket: WebSocket | null = null
 
     return store => next => action => {
@@ -40,7 +38,7 @@ export const webSocketMiddleware = (): Middleware => {
                 socket.close()
             }
             socket = new WebSocket(getWebSocketURI())
-            socket.onmessage = messageHandler(store)
+            socket.onmessage = messageHandler(store, listenersMap)
             break
         case ACTION_DISCONNECT:
             if (socket) {
