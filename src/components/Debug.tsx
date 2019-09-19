@@ -1,7 +1,8 @@
 import React from "react"
 import ReactJson from "react-json-view"
 import fecha from "fecha"
-import { Container, makeStyles, MenuItem, Select } from "@material-ui/core"
+import { Container, IconButton, makeStyles, MenuItem, Select } from "@material-ui/core"
+import { FileCopy } from "@material-ui/icons"
 import { useDispatch, useSelector } from "react-redux"
 import { WebBridgeRecord } from "../models/KCSAPIStruct"
 import { selectLogData } from "../store/debug/actions"
@@ -18,9 +19,52 @@ const useStyles = makeStyles({
         padding: "16px",
         backgroundColor: "white",
     },
+    uriArea: {
+        color: "white",
+        marginBottom: "8px",
+    },
+    copyButton: {
+        marginLeft: "8px",
+    },
+    copyIcon: {
+        color: "white",
+    },
 })
 
 const nullRecord = new WebBridgeRecord("", 0, {})
+
+const copyListener = (value: string): (ev: ClipboardEvent) => void => {
+    const listener = (ev: ClipboardEvent): void => {
+        if (ev.clipboardData) {
+            ev.clipboardData.setData("text/plain", value)
+        }
+        ev.preventDefault()
+        document.removeEventListener("copy", listener)
+    }
+    return listener
+}
+
+type URIAreaProps = {
+    uri: string;
+    className: string;
+    buttonClassName: string;
+    iconClassName: string;
+}
+
+const URIArea: React.SFC<URIAreaProps> = ({ uri, className, buttonClassName, iconClassName }) => (
+    <div className={className}>
+        {uri}
+        <IconButton
+            className={buttonClassName}
+            size="small"
+            onClick={() => {
+                document.addEventListener("copy", copyListener(uri))
+                document.execCommand("copy")
+            }}>
+            <FileCopy className={iconClassName} aria-label="copy" />
+        </IconButton>
+    </div>
+)
 
 export const Debug: React.SFC = () => {
     const classes = useStyles()
@@ -44,10 +88,19 @@ export const Debug: React.SFC = () => {
                 </Select>
             </div>
             {debugState.selectedRecord && (
-                <ReactJson
-                    src={debugState.selectedRecord.body}
-                    theme="google"
-                />
+                <div>
+                    <URIArea
+                        uri={debugState.selectedRecord.uri}
+                        className={classes.uriArea}
+                        buttonClassName={classes.copyButton}
+                        iconClassName={classes.copyIcon}
+                    />
+                    <ReactJson
+                        src={debugState.selectedRecord.body}
+                        theme="google"
+                        iconStyle="circle"
+                    />
+                </div>
             )}
         </Container>
     )
