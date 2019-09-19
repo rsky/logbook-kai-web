@@ -12,7 +12,8 @@ import { ACTION_CONNECT, ACTION_DISCONNECT } from "./actions"
 const messageHandler = (store: MiddlewareAPI<Dispatch<AnyAction>, LogbookState>) => (event: MessageEvent) => {
     const data = WebBridgeRecord.fromPayload(JSON.parse(event.data))
     const settings = store.getState().settings
-    if (settings.debugMode) {
+    // `/kcsapi/api_start2/getData` is too large to dump
+    if (settings.debugMode && data.uri !== "/kcsapi/api_start2/getData") {
         store.dispatch(addLogData(data, settings.maxLogRecords))
     }
 
