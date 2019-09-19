@@ -1,14 +1,14 @@
 import { AnyAction, Dispatch } from "redux"
-import { WebBridgeRecord } from "../models/KCSAPIStruct"
-import { WebBridgeListener } from "."
+import { AnyMap } from "../models/KCSAPIStruct"
+import { APIListener } from "."
 
-export default class Listener implements WebBridgeListener {
+export default class Listener implements APIListener {
     targets(): string[] | null {
         return null
     }
 
-    accept(dispatch: Dispatch<AnyAction>, record: WebBridgeRecord): void {
-        const apiData = record.body.api_data
+    accept(dispatch: Dispatch<AnyAction>, response: AnyMap): void {
+        const apiData = response.api_data
         if (!apiData) {
             return
         }

@@ -1,22 +1,22 @@
 import { AnyAction, Dispatch } from "redux"
-import { WebBridgeRecord } from "../models/KCSAPIStruct"
+import { AnyMap } from "../models/KCSAPIStruct"
 
-interface WebBridgeListener {
+interface APIListener {
     targets(): string[] | null;
-    accept(dispatch: Dispatch<AnyAction>, record: WebBridgeRecord): void;
+    accept(dispatch: Dispatch<AnyAction>, response: AnyMap): void;
 }
 
 type WritableListenersMap = {
-    all: WebBridgeListener[];
-    [api: string]: WebBridgeListener[];
+    all: APIListener[];
+    [api: string]: APIListener[];
 }
 
 type ListenersMap = {
-    readonly all: ReadonlyArray<WebBridgeListener>;
-    readonly [api: string]: ReadonlyArray<WebBridgeListener>;
+    readonly all: ReadonlyArray<APIListener>;
+    readonly [api: string]: ReadonlyArray<APIListener>;
 }
 
-const listenersToMap = (listeners: ReadonlyArray<WebBridgeListener>): ListenersMap => {
+const listenersToMap = (listeners: ReadonlyArray<APIListener>): ListenersMap => {
     const map = { all: [] } as WritableListenersMap
     listeners.forEach(listener => {
         const targets = listener.targets()
@@ -35,7 +35,7 @@ const listenersToMap = (listeners: ReadonlyArray<WebBridgeListener>): ListenersM
     return map
 }
 
-const loadAllListeners = (): ReadonlyArray<WebBridgeListener> => {
+const loadAllListeners = (): ReadonlyArray<APIListener> => {
     const context = require.context("./", false, /[A-Z][0-9A-Za-z]*Listener\.ts$/)
     return context.keys().map((path: string) => {
         const Listener = context(path).default
@@ -44,7 +44,7 @@ const loadAllListeners = (): ReadonlyArray<WebBridgeListener> => {
 }
 
 export {
-    WebBridgeListener,
+    APIListener,
     ListenersMap,
     listenersToMap,
     loadAllListeners,

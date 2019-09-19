@@ -1,4 +1,4 @@
-import { AnyDict } from "./KCSAPIStruct"
+import { AnyMap } from "./KCSAPIStruct"
 import { KCSModel } from "./KCSModel"
 
 export class Deck extends KCSModel {
@@ -7,7 +7,7 @@ export class Deck extends KCSModel {
     readonly ships: number[];
     readonly missions: number[];
 
-    constructor (data: AnyDict) {
+    constructor (data: AnyMap) {
         super(data)
         this.id = data.api_id
         this.name = data.api_name
