@@ -5,7 +5,7 @@ import { Container, IconButton, makeStyles, MenuItem, Select } from "@material-u
 import { FileCopy } from "@material-ui/icons"
 import { useDispatch, useSelector } from "react-redux"
 import { WebBridgeRecord } from "../models/KCSAPIStruct"
-import { selectLogData } from "../store/debug/actions"
+import { selectLogData } from "../store/debug"
 import { LogbookState } from "../store"
 import { rootStyle } from "./layouts/Common"
 

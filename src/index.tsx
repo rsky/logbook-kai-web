@@ -1,12 +1,12 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import { Provider } from "react-redux"
-import { configureStore } from "./store"
+import { setupStore } from "./store"
 import { Logbook } from "./components/Logbook"
 
-const store = configureStore()
+const store = setupStore()
 
-const App: React.SFC = () => (
+const App: React.FunctionComponent = () => (
     <Provider store={store}>
         <Logbook />
     </Provider>

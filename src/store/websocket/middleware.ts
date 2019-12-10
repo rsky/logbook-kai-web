@@ -1,6 +1,6 @@
-import { AnyAction, Dispatch, Middleware, MiddlewareAPI } from "redux"
+import { Dispatch, Middleware, MiddlewareAPI } from "redux"
 
-import { addLogData } from "../debug/actions"
+import { addLogData } from "../debug"
 import { APIListener, ListenersMap, listenersToMap, loadAllListeners } from "../../listeners"
 import { WebBridgeRecord } from "../../models/KCSAPIStruct"
 import { getWebSocketURI } from "../../utils/webapp"
@@ -9,7 +9,7 @@ import { LogbookState } from ".."
 import { ACTION_CONNECT, ACTION_DISCONNECT } from "./actions"
 
 const messageHandler = (
-    store: MiddlewareAPI<Dispatch<AnyAction>, LogbookState>,
+    store: MiddlewareAPI<Dispatch, LogbookState>,
     listenersMap: ListenersMap,
 ) => (event: MessageEvent) => {
     const record = WebBridgeRecord.fromPayload(JSON.parse(event.data))
@@ -19,7 +19,7 @@ const messageHandler = (
 
     // `/kcsapi/api_start2/getData` is too large to dump
     if (settings.debugMode && uri !== "/kcsapi/api_start2/getData") {
-        dispatch(addLogData(record, settings.maxLogRecords))
+        dispatch(addLogData({ record, limit: settings.maxLogRecords }))
     }
 
     const acceptFunc = (listener: APIListener): void => listener.accept(dispatch, body)
